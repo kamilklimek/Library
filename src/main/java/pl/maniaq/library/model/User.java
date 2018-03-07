@@ -3,7 +3,7 @@ package pl.maniaq.library.model;
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
-
+import org.hibernate.annotations.Table;
 /**
  *  This is a model class to hold user informations
  *
