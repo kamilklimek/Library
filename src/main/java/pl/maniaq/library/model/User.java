@@ -26,8 +26,6 @@ public class User {
     @Column(name="password")
     private char[] password;
 
-    User(){}
-
 
     public User(String login, String email, char[] password) {
         this.login = login;
