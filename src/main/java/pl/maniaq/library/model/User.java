@@ -10,7 +10,7 @@ import java.util.Objects;
  *  @author maniaq
  */
 
-@Entity
+@Entity(name="USERS")
 public class User {
 
     @Id
@@ -33,7 +33,7 @@ public class User {
         this.password = password;
     }
 
-    private class UserBuilder{
+    private static class UserBuilder{
 
         private String login;
         private String email;
