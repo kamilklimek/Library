@@ -1,7 +1,11 @@
 package pl.maniaq.library.dao;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import pl.maniaq.library.model.Category;
 
-public interface CategoryDao extends CrudRepository<Long, Category> {
+import javax.transaction.Transactional;
+
+
+public interface CategoryDao extends CrudRepository<Category, Long> {
 }

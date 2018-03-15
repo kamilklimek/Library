@@ -4,7 +4,7 @@ package pl.maniaq.library.model;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity(name="CATEGORIES")
+@Entity
 public class Category {
 
     @Id

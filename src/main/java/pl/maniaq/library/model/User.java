@@ -3,9 +3,6 @@ package pl.maniaq.library.model;
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
-import org.hibernate.annotations.Table;
-import org.springframework.beans.factory.annotation.Autowired;
-import pl.maniaq.library.dao.UserDao;
 
 /**
  *  This is a model class to hold user informations
@@ -13,7 +10,7 @@ import pl.maniaq.library.dao.UserDao;
  *  @author maniaq
  */
 
-@Entity(name="USERS")
+@Entity
 public class User {
 
     @Id
@@ -27,10 +24,10 @@ public class User {
     private String email;
 
     @Column(name="password")
-    private char[] password;
+    private String password;
 
 
-    public User(String login, String email, char[] password) {
+    public User(String login, String email, String password) {
         this.login = login;
         this.email = email;
         this.password = password;
@@ -40,7 +37,7 @@ public class User {
 
         private String login;
         private String email;
-        private char[] password;
+        private String password;
 
 
         public UserBuilder setLogin(String login){
@@ -53,7 +50,7 @@ public class User {
             return this;
         }
 
-        public UserBuilder setPassword(char[] password){
+        public UserBuilder setPassword(String password){
             this.password=password;
             return this;
         }
@@ -72,15 +69,13 @@ public class User {
         return Objects.equals(id, user.id) &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(email, user.email) &&
-                Arrays.equals(password, user.password);
+                Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
 
-        int result = Objects.hash(id, login, email);
-        result = 31 * result + Arrays.hashCode(password);
-        return result;
+        return Objects.hash(id, login, email, password);
     }
 
     public Long getId() {
@@ -107,11 +102,11 @@ public class User {
         this.email = email;
     }
 
-    public char[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(char[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }

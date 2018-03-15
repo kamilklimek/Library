@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
+@Table(name="BOOKS")
 @Entity(name="BOOKS")
 public class Book {
 
@@ -20,26 +21,21 @@ public class Book {
     @Column(name="releaseYear")
     private Integer releaseYear;
 
-    @ManyToMany
-    private Set<Category> categories;
+    @Column(name="author_id")
+    private Long authorId;
 
-    @ManyToMany
-    private Set<Author> authors;
 
-    public Book(String title, String description, Integer releaseYear, Set<Category> categories, Set<Author> authors) {
+
+    public Book(String title, String description, Integer releaseYear) {
         this.title = title;
         this.description = description;
         this.releaseYear = releaseYear;
-        this.categories = categories;
-        this.authors = authors;
     }
 
     private static class BookBuilder{
         private String title;
         private String description;
         private Integer releaseYear;
-        private Set<Category> categories;
-        private Set<Author> authors;
 
         public BookBuilder setTitle(String title){
             this.title=title;
@@ -56,18 +52,9 @@ public class Book {
             return this;
         }
 
-        public BookBuilder setCategories(Set<Category> categories){
-            this.categories=categories;
-            return this;
-        }
-
-        public BookBuilder setAuthors(Set<Author> authors){
-            this.authors=authors;
-            return this;
-        }
 
         public Book createBook(){
-            return new Book(title, description, releaseYear, categories, authors);
+            return new Book(title, description, releaseYear);
         }
 
     }
@@ -81,15 +68,13 @@ public class Book {
         return Objects.equals(id, book.id) &&
                 Objects.equals(title, book.title) &&
                 Objects.equals(description, book.description) &&
-                Objects.equals(releaseYear, book.releaseYear) &&
-                Objects.equals(categories, book.categories) &&
-                Objects.equals(authors, book.authors);
+                Objects.equals(releaseYear, book.releaseYear);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, title, description, releaseYear, categories, authors);
+        return Objects.hash(id, title, description, releaseYear);
     }
 
     public Long getId() {
@@ -124,19 +109,4 @@ public class Book {
         this.releaseYear = releaseYear;
     }
 
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
-
-    public Set<Author> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
-    }
 }

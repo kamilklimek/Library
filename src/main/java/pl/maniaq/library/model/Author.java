@@ -3,7 +3,9 @@ package pl.maniaq.library.model;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
+import java.util.Set;
 
+@Table(name="AUTHORS")
 @Entity(name="AUTHORS")
 public class Author {
 
@@ -19,6 +21,11 @@ public class Author {
 
     @Column(name="bornDate")
     private Date bornDate;
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="id", referencedColumnName = "author_id")
+    private Set<Book> books;
 
     public Author(String authorName, String authorLastName, Date bornDate) {
         this.authorName = authorName;
