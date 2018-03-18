@@ -3,8 +3,10 @@ package pl.maniaq.library.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
+@Table(name="categories")
 public class Category {
 
     @Id
@@ -16,6 +18,11 @@ public class Category {
 
     @Column(name="description")
     private String description;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "category")
+    private Set<Book> books;
 
     Category(final String categoryName){
         this.categoryName=categoryName;

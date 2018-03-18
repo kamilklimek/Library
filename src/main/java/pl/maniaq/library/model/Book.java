@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(name="BOOKS")
-@Entity(name="BOOKS")
+@Entity
+@Table(name="books")
 public class Book {
 
     @Id
@@ -21,10 +21,18 @@ public class Book {
     @Column(name="releaseYear")
     private Integer releaseYear;
 
-    @Column(name="author_id")
-    private Long authorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
+
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
 
+    public Book(){
+
+    }
 
     public Book(String title, String description, Integer releaseYear) {
         this.title = title;

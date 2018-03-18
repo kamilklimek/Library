@@ -2,30 +2,38 @@ package pl.maniaq.library.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(name="AUTHORS")
-@Entity(name="AUTHORS")
+@Entity
+@Table(name="authors")
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="authorName")
+    @Column(name="AUTHOR_NAME")
     private String authorName;
 
-    @Column(name="authorLastName")
+    @Column(name="AUTHOR_LASTNAME")
     private String authorLastName;
 
-    @Column(name="bornDate")
+    @Column(name="BORN_DATE")
     private Date bornDate;
 
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "author")
+    private Set<Book> books = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="id", referencedColumnName = "author_id")
-    private Set<Book> books;
+
+
+    public Author(){
+
+    }
 
     public Author(String authorName, String authorLastName, Date bornDate) {
         this.authorName = authorName;
