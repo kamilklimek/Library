@@ -1,12 +1,11 @@
 package pl.maniaq.library.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.maniaq.library.model.User;
 import pl.maniaq.library.service.UserService;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -16,12 +15,12 @@ public class UserController {
 
     @RequestMapping(
             value="/register",
-            method= RequestMethod.POST,
-            headers="Accept=application/json")
+            method= RequestMethod.POST
+            )
     public String registerUser(
-            @PathVariable("login") String login,
-            @PathVariable("email") String email,
-            @PathVariable("password") String password){
+            @RequestBody String login,
+            @RequestBody String email,
+            @RequestBody String password){
 
         User user = new User.UserBuilder()
                 .setLogin(login)
@@ -31,6 +30,16 @@ public class UserController {
 
         return userService.registerUser(user) ? "Registered. " : "Error.";
     }
+
+    @RequestMapping(
+            value="/users",
+            method=RequestMethod.GET)
+    public List<User>  getAllUsers(){
+        List<User> users = userService.getAllUsers();
+
+        return users;
+    }
+
 
 
 }

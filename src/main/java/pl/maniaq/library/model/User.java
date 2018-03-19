@@ -27,6 +27,9 @@ public class User {
     @Column(name="password")
     private String password;
 
+    public User(){
+
+    }
 
     public User(String login, String email, String password) {
         this.login = login;
@@ -109,5 +112,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

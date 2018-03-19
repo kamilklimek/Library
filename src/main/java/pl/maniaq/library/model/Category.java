@@ -24,6 +24,10 @@ public class Category {
             mappedBy = "category")
     private Set<Book> books;
 
+    public Category(){
+
+    }
+
     Category(final String categoryName){
         this.categoryName=categoryName;
     }
