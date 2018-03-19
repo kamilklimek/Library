@@ -34,7 +34,7 @@ public class User {
         this.password = password;
     }
 
-    private static class UserBuilder{
+    public static class UserBuilder{
 
         private String login;
         private String email;
