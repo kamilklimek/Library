@@ -10,4 +10,7 @@ import javax.transaction.Transactional;
 
 public interface UserDao extends JpaRepository<User, Long> {
 
+    User findByEmail(String email);
+    boolean existsByEmail(String email);
+
 }
