@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.maniaq.library.model.User;
 import pl.maniaq.library.service.UserService;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -18,9 +19,9 @@ public class UserController {
             method= RequestMethod.POST
             )
     public String registerUser(
-            @RequestBody String login,
-            @RequestBody String email,
-            @RequestBody String password){
+            @RequestParam String login,
+            @RequestParam String email,
+            @RequestParam String password){
 
         User user = new User.UserBuilder()
                 .setLogin(login)
@@ -34,8 +35,8 @@ public class UserController {
     @RequestMapping(
             value="/users",
             method=RequestMethod.GET)
-    public List<User>  getAllUsers(){
-        List<User> users = userService.getAllUsers();
+    public Collection<User> getAllUsers(){
+        Collection<User> users = userService.getAllUsers();
 
         return users;
     }

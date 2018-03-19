@@ -1,10 +1,12 @@
 package pl.maniaq.library.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pl.maniaq.library.dao.UserDao;
 import pl.maniaq.library.exceptions.UserNotFoundException;
 import pl.maniaq.library.model.User;
 
+@Component
 public class UserValidation {
 
     @Autowired
@@ -20,7 +22,8 @@ public class UserValidation {
         if(userExists)
             return true;
 
-        throw new UserNotFoundException(userEmail);
+        return false;
+        //throw new UserNotFoundException(userEmail);
     }
 
 

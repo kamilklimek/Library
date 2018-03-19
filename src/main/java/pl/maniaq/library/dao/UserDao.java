@@ -8,9 +8,9 @@ import pl.maniaq.library.model.User;
 import javax.transaction.Transactional;
 
 
-public interface UserDao extends JpaRepository<User, Long> {
+public interface UserDao extends CrudRepository<User, Long> {
 
-    User findByEmail(String email);
-    boolean existsByEmail(String email);
+    public User findByEmail(String email);
+    public boolean existsByEmail(String email);
 
 }
