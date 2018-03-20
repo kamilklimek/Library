@@ -4,19 +4,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.maniaq.library.dao.CategoryDao;
 import pl.maniaq.library.model.Category;
+import pl.maniaq.library.validation.CategoryValidation;
+
+import java.util.Collection;
 
 @Service
 public class CategoryService {
 
     @Autowired
     CategoryDao categoryDao;
+    @Autowired
+    CategoryValidation categoryValidation;
 
     public CategoryService(){
 
     }
 
     public boolean addNewCategory(Category category){
-        boolean
+        boolean categoryExists = categoryValidation.validateCategoryExists(category.getCategoryName());
+
+        if(!categoryExists){
+            categoryDao.save(category);
+            return true;
+        }
+        return false;
+    }
+
+    public Collection<Category> getAllCategories(){
+        Collection<Category> categories = categoryDao.findAll();
+        return categories;
     }
 
 }
