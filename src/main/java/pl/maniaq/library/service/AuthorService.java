@@ -6,6 +6,8 @@ import pl.maniaq.library.dao.AuthorDao;
 import pl.maniaq.library.model.Author;
 import pl.maniaq.library.validation.AuthorValidation;
 
+import java.util.Collection;
+
 @Service
 public class AuthorService {
 
@@ -40,6 +42,10 @@ public class AuthorService {
         }
 
         return false;
+    }
+
+    public Collection<Author> getAllAuthors(){
+        return authorDao.findAll();
     }
 
 }

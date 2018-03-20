@@ -1,7 +1,7 @@
 package pl.maniaq.library.model;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
