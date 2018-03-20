@@ -33,7 +33,7 @@ public class AuthorService {
         boolean authorAlreadyExist = authorValidation.validateAuthorExists(author.getAuthorName(), author.getAuthorLastName());
 
         if(authorAlreadyExist){
-            Author authorFromDb = authorDao.getAuthorByAuthorLastNameAAndAuthorName(author.getAuthorLastName(), author.getAuthorName());
+            Author authorFromDb = authorDao.getAuthorByAuthorLastNameAndAuthorName(author.getAuthorLastName(), author.getAuthorName());
             Long authorId = authorFromDb.getId();
             authorDao.deleteById(authorId);
             return true;
