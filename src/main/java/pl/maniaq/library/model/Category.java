@@ -32,7 +32,7 @@ public class Category {
         this.categoryName=categoryName;
     }
 
-    Category(final String categoryName, final String description){
+    public Category(final String categoryName, final String description){
         this.categoryName=categoryName;
         this.description=description;
     }
