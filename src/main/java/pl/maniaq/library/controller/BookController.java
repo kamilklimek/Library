@@ -30,9 +30,15 @@ public class BookController {
             @RequestParam String bookDescription,
             @RequestParam String releaseYear){
 
-        Book book = new Book(bookTitle, bookDescription, Integer.parseInt(releaseYear));
+        Book book = new Book.BookBuilder()
+                .setTitle(bookTitle)
+                .setDescription(bookDescription)
+                .setReleaseYear(Integer.parseInt(releaseYear))
+                .setAuthorId(1l)
+                .setCategoryId(1l)
+                .createBook();
 
-        return  bookService.addNewBook(book) ? "Ok." : "False";
+        return bookService.addNewBook(book) ? "Ok." : "False";
     }
 
     @RequestMapping(

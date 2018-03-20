@@ -6,6 +6,8 @@ import pl.maniaq.library.dao.BookDao;
 import pl.maniaq.library.model.Book;
 import pl.maniaq.library.validation.BookValidation;
 
+import java.util.Collection;
+
 @Service
 public class BookService {
 
@@ -19,15 +21,12 @@ public class BookService {
     }
 
     public boolean addNewBook(Book book){
-        boolean bookExists = bookValidation.validateBookExists();
+        bookDao.save(book);
+        return true;
+    }
 
-        if(!bookExists){
-            bookDao.save(book);
-            return true;
-        }
-
-        return false;
-
+    public Collection<Book> getAllBooks(){
+        return bookDao.findAll();
     }
 
 }

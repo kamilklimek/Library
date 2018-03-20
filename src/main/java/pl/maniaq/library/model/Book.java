@@ -34,16 +34,22 @@ public class Book {
 
     }
 
-    public Book(String title, String description, Integer releaseYear) {
+    public Book(String title, String description, Integer releaseYear, Author author, Category category) {
         this.title = title;
         this.description = description;
         this.releaseYear = releaseYear;
+        this.author = author;
+        this.category = category;
     }
 
-    private static class BookBuilder{
+
+
+    public static class BookBuilder{
         private String title;
         private String description;
         private Integer releaseYear;
+        private Author author = new Author();
+        private Category category = new Category();
 
         public BookBuilder setTitle(String title){
             this.title=title;
@@ -60,13 +66,30 @@ public class Book {
             return this;
         }
 
+        public BookBuilder setAuthorId(Long id){
+            this.author.setId(id);
+            return this;
+        }
+
+        public BookBuilder setCategoryId(Long id){
+            this.category.setId(id);
+            return this;
+        }
+
 
         public Book createBook(){
-            return new Book(title, description, releaseYear);
+            return new Book(title, description, releaseYear, author, category);
         }
 
     }
 
+    public void setAuthorId(Long id){
+        author.setId(id);
+    }
+
+    public void setCategoryId(Long id){
+        category.setId(id);
+    }
 
     @Override
     public boolean equals(Object o) {

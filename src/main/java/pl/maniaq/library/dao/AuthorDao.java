@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface AuthorDao extends JpaRepository<Author, Long> {
 
-    Optional<Collection<Author>> getAuthorsByAuthorLastName(String lastName);
+    Optional<Author> getAuthorById(Long authorId);
     Author getAuthorByAuthorLastNameAndAuthorName(String authorLastName, String authorName);
+    boolean existsAuthorByAuthorNameAndAuthorLastName(String name, String lastName);
+
 }

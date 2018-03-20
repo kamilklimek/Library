@@ -21,7 +21,10 @@ public class AuthorService {
     }
 
     public boolean addNewAuthor(Author author){
-        boolean authorAlreadyExist = authorValidation.validateAuthorExists(author.getAuthorName(), author.getAuthorLastName());
+        String name = author.getAuthorName();
+        String lastname = author.getAuthorLastName();
+
+        boolean authorAlreadyExist = authorValidation.validateAuthorExists(name, lastname);
 
         if(!authorAlreadyExist){
             authorDao.save(author);
@@ -31,13 +34,31 @@ public class AuthorService {
         return false;
     }
 
-    public boolean removeAuthor(Author author){
-        boolean authorAlreadyExist = authorValidation.validateAuthorExists(author.getAuthorName(), author.getAuthorLastName());
+    public boolean removeAuthor(Long authorId){
+        boolean authorAlreadyExist = authorValidation.validateAuthorExists(authorId);
 
         if(authorAlreadyExist){
-            Author authorFromDb = authorDao.getAuthorByAuthorLastNameAndAuthorName(author.getAuthorLastName(), author.getAuthorName());
-            Long authorId = authorFromDb.getId();
             authorDao.deleteById(authorId);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean updateAuthor(Author author){
+        String name = author.getAuthorName();
+        String lastname = author.getAuthorLastName();
+
+        boolean authorAlreadyExist = authorValidation.validateAuthorExists(name, lastname);
+
+        if(authorAlreadyExist){
+            Author authorFromRepository = authorDao.getAuthorByAuthorLastNameAndAuthorName(name, lastname);
+            Long authorIdFromRepository = authorFromRepository.getId();
+
+            author.setId(authorIdFromRepository);
+            authorFromRepository = author;
+
+            authorDao.flush();
             return true;
         }
 

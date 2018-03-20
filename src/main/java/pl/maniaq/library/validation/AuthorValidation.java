@@ -18,24 +18,16 @@ public class AuthorValidation {
 
     }
 
-    public boolean validateAuthorExists(String authorName, String authorLastName){
-        boolean authorsListIsNotEmpty = authorDao.getAuthorsByAuthorLastName(authorLastName).isPresent();
+    public boolean validateAuthorExists(Long authorId){
+        boolean authorExists = authorDao.getAuthorById(authorId).isPresent();
 
-        if(authorsListIsNotEmpty){
-            Collection<Author> authors = authorDao.getAuthorsByAuthorLastName(authorLastName).get();
+        return authorExists ? true : false;
+    }
 
-            for (Author author: authors
-                 ) {
-                boolean authorNameEquals = Objects.equals(authorName, author.getAuthorName());
-                if(authorNameEquals){
-                    return true;
-                }
-            }
+    public boolean validateAuthorExists(String name, String lastname){
+        boolean authorsExists = authorDao.existsAuthorByAuthorNameAndAuthorLastName(name, lastname);
 
-        }
-
-        return false;
-
+        return authorsExists ? true : false;
     }
 
 }
