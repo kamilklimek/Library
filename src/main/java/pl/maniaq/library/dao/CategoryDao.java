@@ -8,5 +8,7 @@ import pl.maniaq.library.model.Category;
 import javax.transaction.Transactional;
 
 
-public interface CategoryDao extends JpaRepository<Category, Long> {
+public interface CategoryDao extends CrudRepository<Category, Long> {
+
+    boolean existsCategoryByCategoryName(String categoryName);
 }
