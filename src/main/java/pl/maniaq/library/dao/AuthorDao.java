@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface AuthorDao extends JpaRepository<Author, Long> {
 
     Optional<Collection<Author>> getAuthorsByAuthorLastName(String lastName);
+    Author getAuthorByAuthorLastNameAAndAuthorName(String authorLastName, String authorName);
 }

@@ -29,4 +29,17 @@ public class AuthorService {
         return false;
     }
 
+    public boolean removeAuthor(Author author){
+        boolean authorAlreadyExist = authorValidation.validateAuthorExists(author.getAuthorName(), author.getAuthorLastName());
+
+        if(authorAlreadyExist){
+            Author authorFromDb = authorDao.getAuthorByAuthorLastNameAAndAuthorName(author.getAuthorLastName(), author.getAuthorName());
+            Long authorId = authorFromDb.getId();
+            authorDao.deleteById(authorId);
+            return true;
+        }
+
+        return false;
+    }
+
 }
