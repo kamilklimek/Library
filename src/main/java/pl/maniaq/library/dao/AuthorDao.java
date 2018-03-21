@@ -10,7 +10,8 @@ import java.util.Optional;
 public interface AuthorDao extends JpaRepository<Author, Long> {
 
     Optional<Author> getAuthorById(Long authorId);
-    Author getAuthorByAuthorLastNameAndAuthorName(String authorLastName, String authorName);
+    Author getAuthorByAuthorNameAndAuthorLastName(String name, String lastname);
     boolean existsAuthorByAuthorNameAndAuthorLastName(String name, String lastName);
+    boolean existsById(Long id);
 
 }

@@ -52,7 +52,7 @@ public class AuthorService {
         boolean authorAlreadyExist = authorValidation.validateAuthorExists(name, lastname);
 
         if(authorAlreadyExist){
-            Author authorFromRepository = authorDao.getAuthorByAuthorLastNameAndAuthorName(name, lastname);
+            Author authorFromRepository = authorDao.getAuthorByAuthorNameAndAuthorLastName(name, lastname);
             Long authorIdFromRepository = authorFromRepository.getId();
 
             author.setId(authorIdFromRepository);
