@@ -7,6 +7,7 @@ import pl.maniaq.library.model.Category;
 import pl.maniaq.library.validation.CategoryValidation;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class CategoryService {
@@ -30,8 +31,8 @@ public class CategoryService {
         return false;
     }
 
-    public Collection<Category> getAllCategories(){
-        Collection<Category> categories = categoryDao.findAll();
+    public List<Category> getAllCategories(){
+        List<Category> categories = categoryDao.findAll();
         return categories;
     }
 

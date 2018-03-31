@@ -12,8 +12,8 @@ import java.util.Set;
 public class Author {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "DEFAULT_SEQ")
+    public Long id;
 
     @Column(name="AUTHOR_NAME")
     private String authorName;
@@ -24,9 +24,9 @@ public class Author {
     @Column(name="BORN_DATE")
     private Date bornDate;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "author")
+    @OneToMany(cascade = {CascadeType.MERGE},
+            targetEntity = Book.class)
+    @JoinColumn(name="id")
     private Set<Book> books = new HashSet<>();
 
 
@@ -88,5 +88,16 @@ public class Author {
     public int hashCode() {
 
         return Objects.hash(id, authorName, authorLastName, bornDate);
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", authorName='" + authorName + '\'' +
+                ", authorLastName='" + authorLastName + '\'' +
+                ", bornDate=" + bornDate +
+                ", books=" + books +
+                '}';
     }
 }

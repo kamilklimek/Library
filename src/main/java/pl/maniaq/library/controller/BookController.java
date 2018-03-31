@@ -2,53 +2,66 @@ package pl.maniaq.library.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pl.maniaq.library.dao.AuthorDao;
+import pl.maniaq.library.dao.CategoryDao;
+import pl.maniaq.library.model.Author;
 import pl.maniaq.library.model.Book;
+import pl.maniaq.library.model.Category;
+import pl.maniaq.library.service.AuthorService;
 import pl.maniaq.library.service.BookService;
+import pl.maniaq.library.service.CategoryService;
 
 import java.util.Collection;
+import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value="/books/")
+@RequestMapping(value="/books")
 public class BookController {
 
     @Autowired
     BookService bookService;
+    @Autowired
 
     public BookController(){
 
     }
 
     @RequestMapping(
-            value="/",
+            value="",
             method = RequestMethod.POST)
     public String addNewBook(
-            @RequestParam String bookTitle,
-            @RequestParam String bookDescription,
-            @RequestParam String releaseYear){
+            @RequestParam(value="title") String bookTitle,
+            @RequestParam(value="description") String bookDescription,
+            @RequestParam(value="releaseYear") String releaseYear,
+            @RequestParam(value="categoryId") Long categoryId,
+            @RequestParam(value="authorId") Long authorId){
+
 
         Book book = new Book.BookBuilder()
                 .setTitle(bookTitle)
                 .setDescription(bookDescription)
                 .setReleaseYear(Integer.parseInt(releaseYear))
-                .setAuthorId(1l)
-                .setCategoryId(1l)
+                .setAuthorId(authorId)
+                .setCategoryId(categoryId)
                 .createBook();
 
         return bookService.addNewBook(book) ? "Ok." : "False";
     }
 
     @RequestMapping(
-            value="/",
-            method = RequestMethod.GET)
-    public Collection<Book> getAllBooks(){
-        Collection<Book> books = bookService.getAllBooks();
+            value="",
+            method = RequestMethod.GET,
+            produces = "application/json; charset=UTF-8")
+    public List<Book> getAllBooks(){
+        List<Book> books = bookService.getAllBooks();
 
         return books;
 
     }
+
 
 }

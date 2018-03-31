@@ -11,4 +11,5 @@ import javax.transaction.Transactional;
 public interface CategoryDao extends JpaRepository<Category, Long> {
 
     boolean existsCategoryByCategoryName(String categoryName);
+    Category getCategoryById(Long id);
 }

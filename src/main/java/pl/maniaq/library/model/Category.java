@@ -2,6 +2,7 @@ package pl.maniaq.library.model;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -10,8 +11,8 @@ import java.util.Set;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "DEFAULT_SEQ")
+    public Long id;
 
     @Column(name="categoryName")
     private String categoryName;
@@ -19,10 +20,10 @@ public class Category {
     @Column(name="description")
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "category")
-    private Set<Book> books;
+    @OneToMany(cascade = {CascadeType.MERGE},
+            targetEntity = Book.class)
+    @JoinColumn(name="id")
+    private Set<Book> books = new HashSet<>();
 
     public Category(){
 
@@ -75,5 +76,15 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", categoryName='" + categoryName + '\'' +
+                ", description='" + description + '\'' +
+                ", books=" + books +
+                '}';
     }
 }

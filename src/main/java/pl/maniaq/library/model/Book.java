@@ -9,7 +9,7 @@ import java.util.Set;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "DEFAULT_SEQ")
     private Long id;
 
     @Column(name="title")
@@ -21,12 +21,12 @@ public class Book {
     @Column(name="releaseYear")
     private Integer releaseYear;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", nullable = false)
+    @OneToOne(cascade = {CascadeType.ALL}, targetEntity = Author.class)
+    @JoinColumn(name = "author_id")
     private Author author;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
+    @OneToOne(cascade = {CascadeType.ALL}, targetEntity = Category.class)
+    @JoinColumn(name = "category_id")
     private Category category;
 
 
@@ -76,6 +76,16 @@ public class Book {
             return this;
         }
 
+        public BookBuilder setAuthor(Author author){
+            this.author=author;
+            return this;
+        }
+
+        public BookBuilder setCategory(Category category){
+            this.category=category;
+            return this;
+        }
+
 
         public Book createBook(){
             return new Book(title, description, releaseYear, author, category);
@@ -99,13 +109,15 @@ public class Book {
         return Objects.equals(id, book.id) &&
                 Objects.equals(title, book.title) &&
                 Objects.equals(description, book.description) &&
-                Objects.equals(releaseYear, book.releaseYear);
+                Objects.equals(releaseYear, book.releaseYear) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(category, book.category);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, title, description, releaseYear);
+        return Objects.hash(id, title, description, releaseYear, author, category);
     }
 
     public Long getId() {
@@ -140,4 +152,19 @@ public class Book {
         this.releaseYear = releaseYear;
     }
 
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

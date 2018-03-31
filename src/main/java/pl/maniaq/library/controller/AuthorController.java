@@ -7,7 +7,9 @@ import pl.maniaq.library.service.AuthorService;
 
 import java.util.Date;
 import java.util.Collection;
+import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value="/authors")
 public class AuthorController {
@@ -20,16 +22,16 @@ public class AuthorController {
     }
 
     @RequestMapping(
-            value="/",
+            value="",
             method= RequestMethod.GET)
-    public Collection<Author> getAllAuthors(){
-        Collection<Author> authors = authorService.getAllAuthors();
+    public List<Author> getAllAuthors(){
+        List<Author> authors = authorService.getAllAuthors();
 
         return authors;
     }
 
     @RequestMapping(
-            value="/",
+            value="",
             method=RequestMethod.POST)
     public String addNewAuthor(
             @RequestParam String authorName,
