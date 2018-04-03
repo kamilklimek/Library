@@ -34,8 +34,8 @@ public class CategoryController {
             value="",
             method = RequestMethod.POST)
     public String addNewCategory(
-            @RequestParam String categoryName,
-            @RequestParam String categoryDescription){
+            @RequestParam(value="categoryName") String categoryName,
+            @RequestParam(value="categoryDescription") String categoryDescription){
         Category category = new Category(categoryName, categoryDescription);
 
         return categoryService.addNewCategory(category) ? "Ok" : "Error.";

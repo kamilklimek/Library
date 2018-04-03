@@ -19,9 +19,9 @@ public class UserController {
             method= RequestMethod.POST
             )
     public String registerUser(
-            @RequestParam String login,
-            @RequestParam String email,
-            @RequestParam String password){
+            @RequestParam(value="login") String login,
+            @RequestParam(value="email") String email,
+            @RequestParam(value="password") String password){
 
         User user = new User.UserBuilder()
                 .setLogin(login)
