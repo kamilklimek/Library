@@ -53,7 +53,7 @@ public class BookController {
     }
 
     @RequestMapping(
-            value="",
+            value="/list",
             method = RequestMethod.GET,
             produces = "application/json; charset=UTF-8")
     public List<Book> getAllBooks(){
