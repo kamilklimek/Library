@@ -3,57 +3,50 @@ package pl.maniaq.library.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.maniaq.library.dao.AuthorDao;
+import pl.maniaq.library.exceptions.AuthorExistException;
+import pl.maniaq.library.exceptions.AuthorNotFoundException;
 import pl.maniaq.library.model.Author;
 import pl.maniaq.library.validation.AuthorValidation;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthorService {
 
-    @Autowired
-    AuthorDao authorDao;
-    @Autowired
     AuthorValidation authorValidation;
+    AuthorDao authorDao;
 
-    public AuthorService(){
-
+    @Autowired
+    public AuthorService(AuthorValidation authorValidation,
+                         AuthorDao authorDao){
+        this.authorValidation = authorValidation;
+        this.authorDao = authorDao;
     }
 
-    public boolean addNewAuthor(Author author){
-        String name = author.getAuthorName();
-        String lastname = author.getAuthorLastName();
+    public Optional<Author> addNewAuthor(Author author) throws AuthorExistException {
+        boolean authorAlreadyNoExist = !authorValidation.validateAuthorExists(author.getAuthorName(), author.getAuthorLastName());
 
-        boolean authorAlreadyExist = authorValidation.validateAuthorExists(name, lastname);
-
-        if(!authorAlreadyExist){
-            authorDao.save(author);
-            return true;
+        if(authorAlreadyNoExist){
+            return Optional.of(authorDao.save(author));
         }
 
-        return false;
+        throw new AuthorExistException("Author with name: " + author.getAuthorName() + " and lastname: " + author.getAuthorLastName() + " does not exist.");
     }
 
-    public boolean removeAuthor(Long authorId){
-        boolean authorAlreadyExist = authorValidation.validateAuthorExists(authorId);
-
-        if(authorAlreadyExist){
+    public void removeAuthor(Long authorId) throws AuthorNotFoundException {
+        if(authorValidation.validateAuthorExists(authorId)){
             authorDao.deleteById(authorId);
-            return true;
         }
-
-        return false;
     }
 
-    public boolean updateAuthor(Author author){
+    public boolean updateAuthor(Author author) throws AuthorNotFoundException {
         String name = author.getAuthorName();
-        String lastname = author.getAuthorLastName();
+        String lastName = author.getAuthorLastName();
 
-        boolean authorAlreadyExist = authorValidation.validateAuthorExists(name, lastname);
-
-        if(authorAlreadyExist){
-            Author authorFromRepository = authorDao.getAuthorByAuthorNameAndAuthorLastName(name, lastname);
+        if(authorValidation.validateAuthorExists(name, lastName)){
+            Author authorFromRepository = authorDao.getAuthorByAuthorNameAndAuthorLastName(name, lastName);
             Long authorIdFromRepository = authorFromRepository.getId();
 
             author.setId(authorIdFromRepository);
@@ -63,7 +56,8 @@ public class AuthorService {
             return true;
         }
 
-        return false;
+        throw new AuthorNotFoundException("Author with id: " + author.id + " does not exist.");
+
     }
 
     public List<Author> getAllAuthors(){

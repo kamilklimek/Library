@@ -21,11 +21,11 @@ public class Book {
     @Column(name="releaseYear")
     private Integer releaseYear;
 
-    @OneToOne(cascade = {CascadeType.ALL}, targetEntity = Author.class)
+    @OneToOne(cascade = {CascadeType.MERGE}, targetEntity = Author.class)
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToOne(cascade = {CascadeType.ALL}, targetEntity = Category.class)
+    @OneToOne(cascade = {CascadeType.MERGE}, targetEntity = Category.class)
     @JoinColumn(name = "category_id")
     private Category category;
 

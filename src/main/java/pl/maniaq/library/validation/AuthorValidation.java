@@ -3,6 +3,7 @@ package pl.maniaq.library.validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.maniaq.library.dao.AuthorDao;
+import pl.maniaq.library.exceptions.AuthorNotFoundException;
 import pl.maniaq.library.model.Author;
 
 import java.util.Collection;
@@ -18,16 +19,12 @@ public class AuthorValidation {
 
     }
 
-    public boolean validateAuthorExists(Long authorId){
-        boolean authorExists = authorDao.getAuthorById(authorId).isPresent();
-
-        return authorExists ? true : false;
+    public boolean validateAuthorExists(Long authorId) {
+        return authorDao.getAuthorById(authorId).isPresent();
     }
 
-    public boolean validateAuthorExists(String name, String lastname){
-        boolean authorsExists = authorDao.existsAuthorByAuthorNameAndAuthorLastName(name, lastname);
-
-        return authorsExists ? true : false;
+    public boolean validateAuthorExists(String name, String lastname) {
+        return authorDao.existsAuthorByAuthorNameAndAuthorLastName(name, lastname);
     }
 
 }
