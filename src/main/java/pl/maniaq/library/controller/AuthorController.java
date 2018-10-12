@@ -41,7 +41,10 @@ public class AuthorController {
 
     @RequestMapping(
             value="",
-            method=RequestMethod.POST)
+            method=RequestMethod.POST,
+            consumes="application/json",
+            produces="application/json"
+    )
     public ResponseEntity<String> createAuthor(@RequestBody Author author) {
         ResponseEntity<String> response;
 
@@ -63,7 +66,8 @@ public class AuthorController {
 
     @RequestMapping(
             value="/{id}",
-            method={RequestMethod.DELETE})
+            method={RequestMethod.DELETE}
+    )
     public ResponseEntity<String> deleteAuthor(@PathVariable(value="id") Long id) {
         ResponseEntity<String> response;
 
@@ -80,10 +84,13 @@ public class AuthorController {
 
     @RequestMapping(
             value="",
-            method={RequestMethod.PUT})
+            method={RequestMethod.PUT},
+            consumes="application/json"
+            //produces="application/json"
+    )
     public ResponseEntity<String> updateAuthor(@RequestBody Author author) {
         ResponseEntity<String> response;
-
+        //zwrócić authora po update
         try {
             authorService.updateAuthor(author);
             response = ResponseEntity.ok().build();

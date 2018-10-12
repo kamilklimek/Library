@@ -21,20 +21,20 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception{
-        http.authorizeRequests().antMatchers("/books/add/**").permitAll() // what alllow
+        /*http.authorizeRequests().antMatchers("/books/add/**").permitAll() // what alllow
                 .antMatchers("/books/list/**").hasAnyRole("ADMIN") // what block
                 .anyRequest().authenticated().and().formLogin()
                 .permitAll().and().logout().permitAll();
 
-        http.csrf().disable();
+        http.csrf().disable();*/
 
 
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManager) throws Exception{
-        authenticationManager.inMemoryAuthentication().withUser("admin").password("{admin}admin").authorities("ROLE_ADMIN");
-
+        /*authenticationManager.inMemoryAuthentication().withUser("admin").password("{admin}admin").authorities("ROLE_ADMIN");
+*/
 
     }
 
