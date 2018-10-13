@@ -8,15 +8,19 @@ import pl.maniaq.library.dao.CategoryDao;
 @Component
 public class CategoryValidation {
 
+    private CategoryDao categoryDao;
+
     @Autowired
-    CategoryDao categoryDao;
-
-    public CategoryValidation(){
-
+    public CategoryValidation(CategoryDao categoryDao){
+        this.categoryDao=categoryDao;
     }
 
     public boolean validateCategoryExists(String categoryName) {
         return categoryDao.existsCategoryByCategoryName(categoryName);
+    }
+
+    public  boolean validateCategoryExists(Long id) {
+        return categoryDao.existsById(id);
     }
 
 }
