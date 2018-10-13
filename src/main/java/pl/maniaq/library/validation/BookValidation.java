@@ -17,11 +17,11 @@ public class BookValidation {
     }
 
     public boolean validateBookExists(Long bookId) {
-        return bookDao.existsById(bookId);
+        return bookDao.existsBookById(bookId);
     }
 
     public boolean validateBookExists(String title, Author author) {
-        return bookDao.existsByTitleAndAuthor(title, author);
+        return bookDao.existsBookByTitleAndAuthor(title, author);
     }
 
 }

@@ -13,7 +13,7 @@ public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "DEFAULT_SEQ")
-    public Long id;
+    private Long id;
 
     @Column(name="AUTHOR_NAME")
     private String authorName;

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.maniaq.library.exceptions.AuthorExistException;
 import pl.maniaq.library.exceptions.AuthorNotFoundException;
 import pl.maniaq.library.exceptions.BookExistException;
+import pl.maniaq.library.exceptions.BookNotFoundException;
 import pl.maniaq.library.model.Author;
 import pl.maniaq.library.model.BodyMessage;
 import pl.maniaq.library.model.Book;
@@ -78,22 +79,22 @@ public class BookController {
 
         return response;
     }
-/*
+
     @RequestMapping(
             value="/{id}",
             method={RequestMethod.DELETE}
     )
-    public ResponseEntity<String> deleteAuthor(@PathVariable(value="id") Long id) throws IOException {
+    public ResponseEntity<String> deleteBook(@PathVariable(value="id") Long id) throws IOException {
         ResponseEntity<String> response;
         BodyMessage body = new BodyMessage.Builder()
                 .setOperation(CrudOperations.DELETE)
-                .setModel(Author.class)
+                .setModel(Book.class)
                 .build();
 
         try {
             bookService.removeBook(id);
             response = ResponseEntity.status(HttpStatus.ACCEPTED).build();
-        } catch (AuthorNotFoundException e) {
+        } catch (BookNotFoundException e) {
             e.printStackTrace();
             body.setMessage(e.getMessage());
             body.setStatus(HttpStatus.NOT_FOUND);
@@ -109,19 +110,20 @@ public class BookController {
             consumes="application/json",
             produces="application/json"
     )
-    public ResponseEntity<String> updateAuthor(@RequestBody Author author) throws IOException {
+    public ResponseEntity<String> updateBook(@RequestBody Book book) throws IOException {
+        System.out.println("Book: " + book.toString());
         ResponseEntity<String> response;
         BodyMessage body = new BodyMessage.Builder()
                 .setOperation(CrudOperations.PUT)
-                .setModel(Author.class)
+                .setModel(Book.class)
                 .build();
 
         try {
-            Author updatedAuthor = bookService.updateBook(author);
-            response = ResponseEntity.ok(assembler.getModelObj(updatedAuthor));
-        } catch (AuthorNotFoundException e) {
+            book = bookService.updateBook(book);
+            response = ResponseEntity.ok(assembler.getModelObj(book));
+        } catch (BookNotFoundException e) {
             e.printStackTrace();
-            body.setMessage("Author does not exist.");
+            body.setMessage("Book does not exist.");
             body.setStatus(HttpStatus.NOT_FOUND);
             response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyMessageAssembler.getBodyJSON(body));
         } catch (IOException e) {
@@ -132,7 +134,7 @@ public class BookController {
         }
 
         return response;
-    } */
+    }
 
 
 

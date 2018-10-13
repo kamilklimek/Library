@@ -67,7 +67,7 @@ public class AuthorService {
         }
 
         logger.warn("Author with with given id already exist.", author);
-        throw new AuthorNotFoundException("Author with id: " + author.id + " does not exist.");
+        throw new AuthorNotFoundException("Author with id: " + author.getId() + " does not exist.");
     }
 
     public List<Author> getAllAuthors(){

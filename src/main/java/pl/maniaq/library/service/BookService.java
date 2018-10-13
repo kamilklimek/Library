@@ -8,6 +8,7 @@ import pl.maniaq.library.dao.AuthorDao;
 import pl.maniaq.library.dao.BookDao;
 import pl.maniaq.library.dao.CategoryDao;
 import pl.maniaq.library.exceptions.BookExistException;
+import pl.maniaq.library.exceptions.BookNotFoundException;
 import pl.maniaq.library.model.Author;
 import pl.maniaq.library.model.Book;
 import pl.maniaq.library.model.Category;
@@ -52,8 +53,37 @@ public class BookService {
         }
 
 
-        logger.info("Error while add new book. Book already exist.");
+        logger.error("Error while add new book. Book already exist.");
         throw new BookExistException("Book already exists.");
+    }
+
+    public void removeBook(Long bookId) throws BookNotFoundException {
+        if (bookValidation.validateBookExists(bookId)) {
+            bookDao.deleteById(bookId);
+            return;
+        }
+
+        logger.info("Book with this id no exist.", bookId);
+        throw new BookNotFoundException("Book with id: " + bookId + " no exist.");
+    }
+
+    public Book updateBook(Book book) throws BookNotFoundException {
+        Long bookId = book.getId();
+
+        if(bookValidation.validateBookExists(bookId)){
+            Book fetchBook = bookDao.findById(bookId).get();
+
+            fetchBook.setDescription(book.getDescription());
+            fetchBook.setTitle(book.getTitle());
+            fetchBook.setReleaseYear(book.getReleaseYear());
+
+            logger.info("Updated book.", fetchBook);
+            bookDao.saveAndFlush(fetchBook);
+            return fetchBook;
+        }
+
+        logger.info("Book with with given id no exist.", book);
+        throw new BookNotFoundException("Book with id: " + book.getId() + " does not exist.");
     }
 
     public List<Book> getAllBooks(){
