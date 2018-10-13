@@ -5,16 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.maniaq.library.dao.AuthorDao;
-import pl.maniaq.library.dao.CategoryDao;
+import pl.maniaq.library.exceptions.AuthorExistException;
+import pl.maniaq.library.exceptions.AuthorNotFoundException;
+import pl.maniaq.library.exceptions.BookExistException;
 import pl.maniaq.library.model.Author;
+import pl.maniaq.library.model.BodyMessage;
 import pl.maniaq.library.model.Book;
-import pl.maniaq.library.model.Category;
-import pl.maniaq.library.service.AuthorService;
+import pl.maniaq.library.model.assemblers.BodyMessageAssembler;
+import pl.maniaq.library.model.assemblers.ModelAssembler;
+import pl.maniaq.library.model.enums.CrudOperations;
 import pl.maniaq.library.service.BookService;
-import pl.maniaq.library.service.CategoryService;
 
-import java.util.Collection;
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -22,46 +24,116 @@ import java.util.List;
 @RequestMapping(value="/books")
 public class BookController {
 
-    @Autowired
-    BookService bookService;
-    @Autowired
 
-    public BookController(){
+    private BookService bookService;
+    private ModelAssembler assembler;
+    private BodyMessageAssembler bodyMessageAssembler;
 
+    @Autowired
+    public BookController(BookService bookService,
+                          ModelAssembler assembler,
+                            BodyMessageAssembler bodyMessageAssembler){
+        this.bookService=bookService;
+        this.assembler=assembler;
+        this.bodyMessageAssembler = bodyMessageAssembler;
     }
 
     @RequestMapping(
             value="",
-            method = RequestMethod.POST)
-    public String addNewBook(
-            @RequestParam(value="title") String bookTitle,
-            @RequestParam(value="description") String bookDescription,
-            @RequestParam(value="releaseYear") String releaseYear,
-            @RequestParam(value="categoryId") Long categoryId,
-            @RequestParam(value="authorId") Long authorId){
-
-
-        Book book = new Book.BookBuilder()
-                .setTitle(bookTitle)
-                .setDescription(bookDescription)
-                .setReleaseYear(Integer.parseInt(releaseYear))
-                .setAuthorId(authorId)
-                .setCategoryId(categoryId)
-                .createBook();
-
-        return bookService.addNewBook(book) ? "Ok." : "False";
+            method= RequestMethod.GET)
+    public List<Book> getAllBooks(){
+        List<Book> books = bookService.getAllBooks();
+        return books;
     }
 
     @RequestMapping(
-            value="/list",
-            method = RequestMethod.GET,
-            produces = "application/json; charset=UTF-8")
-    public List<Book> getAllBooks(){
-        List<Book> books = bookService.getAllBooks();
+            value="",
+            method=RequestMethod.POST,
+            consumes="application/json",
+            produces="application/json"
+    )
+    public ResponseEntity<String> createBook(@RequestBody Book book) throws IOException {
+        ResponseEntity<String> response;
+        BodyMessage body = new BodyMessage.Builder()
+                .setOperation(CrudOperations.CREATE)
+                .setModel(Book.class)
+                .build();
 
-        return books;
+        try {
+            book = bookService.addNewBook(book);
+            response = ResponseEntity.ok(assembler.getModelObj(book));
 
+        } catch (BookExistException e) {
+            e.printStackTrace();
+            body.setMessage("Book with these parameters already exist.");
+            body.setStatus(HttpStatus.BAD_REQUEST);
+            response = ResponseEntity.badRequest().body(bodyMessageAssembler.getBodyJSON(body));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            body.setMessage("Perhaps you applied wrong format data.");
+            body.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(bodyMessageAssembler.getBodyJSON(body));
+        }
+
+        return response;
     }
+/*
+    @RequestMapping(
+            value="/{id}",
+            method={RequestMethod.DELETE}
+    )
+    public ResponseEntity<String> deleteAuthor(@PathVariable(value="id") Long id) throws IOException {
+        ResponseEntity<String> response;
+        BodyMessage body = new BodyMessage.Builder()
+                .setOperation(CrudOperations.DELETE)
+                .setModel(Author.class)
+                .build();
+
+        try {
+            bookService.removeBook(id);
+            response = ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        } catch (AuthorNotFoundException e) {
+            e.printStackTrace();
+            body.setMessage(e.getMessage());
+            body.setStatus(HttpStatus.NOT_FOUND);
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyMessageAssembler.getBodyJSON(body));
+        }
+
+        return response;
+    }
+
+    @RequestMapping(
+            value="",
+            method={RequestMethod.PUT},
+            consumes="application/json",
+            produces="application/json"
+    )
+    public ResponseEntity<String> updateAuthor(@RequestBody Author author) throws IOException {
+        ResponseEntity<String> response;
+        BodyMessage body = new BodyMessage.Builder()
+                .setOperation(CrudOperations.PUT)
+                .setModel(Author.class)
+                .build();
+
+        try {
+            Author updatedAuthor = bookService.updateBook(author);
+            response = ResponseEntity.ok(assembler.getModelObj(updatedAuthor));
+        } catch (AuthorNotFoundException e) {
+            e.printStackTrace();
+            body.setMessage("Author does not exist.");
+            body.setStatus(HttpStatus.NOT_FOUND);
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyMessageAssembler.getBodyJSON(body));
+        } catch (IOException e) {
+            e.printStackTrace();
+            body.setMessage("Perhaps you applied wrong format data.");
+            body.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(bodyMessageAssembler.getBodyJSON(body));
+        }
+
+        return response;
+    } */
+
 
 
 }

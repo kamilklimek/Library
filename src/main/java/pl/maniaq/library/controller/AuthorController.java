@@ -8,7 +8,7 @@ import pl.maniaq.library.model.BodyMessage;
 import pl.maniaq.library.exceptions.AuthorExistException;
 import pl.maniaq.library.exceptions.AuthorNotFoundException;
 import pl.maniaq.library.model.Author;
-import pl.maniaq.library.model.assemblers.AuthorAssembler;
+import pl.maniaq.library.model.assemblers.ModelAssembler;
 import pl.maniaq.library.model.assemblers.BodyMessageAssembler;
 import pl.maniaq.library.model.enums.CrudOperations;
 import pl.maniaq.library.service.AuthorService;
@@ -22,15 +22,15 @@ import java.util.List;
 public class AuthorController {
 
     private AuthorService authorService;
-    private AuthorAssembler authorAssembler;
+    private ModelAssembler assembler;
     private BodyMessageAssembler bodyMessageAssembler;
 
     @Autowired
     public AuthorController(AuthorService authorService,
-                            AuthorAssembler assembler,
+                            ModelAssembler assembler,
                             BodyMessageAssembler bodyMessageAssembler){
         this.authorService=authorService;
-        this.authorAssembler=assembler;
+        this.assembler =assembler;
         this.bodyMessageAssembler = bodyMessageAssembler;
     }
 
@@ -58,7 +58,7 @@ public class AuthorController {
 
         try {
             author = authorService.addNewAuthor(author);
-            response = ResponseEntity.ok(authorAssembler.getAuthorJSON(author));
+            response = ResponseEntity.ok(assembler.getModelObj(author));
 
         } catch (AuthorExistException e) {
             e.printStackTrace();
@@ -115,7 +115,7 @@ public class AuthorController {
 
         try {
             Author updatedAuthor = authorService.updateAuthor(author);
-            response = ResponseEntity.ok(authorAssembler.getAuthorJSON(updatedAuthor));
+            response = ResponseEntity.ok(assembler.getModelObj(updatedAuthor));
         } catch (AuthorNotFoundException e) {
             e.printStackTrace();
             body.setMessage("Author does not exist.");

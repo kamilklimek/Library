@@ -12,11 +12,11 @@ import java.util.Objects;
 @Component
 public class AuthorValidation {
 
+    private AuthorDao authorDao;
+
     @Autowired
-    AuthorDao authorDao;
-
-    public AuthorValidation(){
-
+    public AuthorValidation(AuthorDao authorDao){
+        this.authorDao=authorDao;
     }
 
     public boolean validateAuthorExists(Long authorId) {

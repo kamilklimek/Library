@@ -2,20 +2,26 @@ package pl.maniaq.library.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.maniaq.library.dao.AuthorDao;
 import pl.maniaq.library.dao.BookDao;
+import pl.maniaq.library.model.Author;
 
 @Component
 public class BookValidation {
 
+    private BookDao bookDao;
+
     @Autowired
-    BookDao bookDao;
-
-    public BookValidation(){
-
+    public BookValidation(BookDao bookDao){
+        this.bookDao = bookDao;
     }
 
-    public boolean validateBookExists(){
-        return true;
+    public boolean validateBookExists(Long bookId) {
+        return bookDao.existsById(bookId);
+    }
+
+    public boolean validateBookExists(String title, Author author) {
+        return bookDao.existsByTitleAndAuthor(title, author);
     }
 
 }
