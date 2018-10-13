@@ -28,13 +28,13 @@ public class AuthorService {
         this.authorDao = authorDao;
     }
 
-    public Optional<Author> addNewAuthor(Author author) throws AuthorExistException {
+    public Author addNewAuthor(Author author) throws AuthorExistException {
         boolean authorAlreadyNoExist = !authorValidation.validateAuthorExists(author.getAuthorName(), author.getAuthorLastName());
 
         if(authorAlreadyNoExist){
             Author createdAuthor = authorDao.save(author);
             logger.info("Create new object author.", createdAuthor);
-            return Optional.of(createdAuthor);
+            return createdAuthor;
         }
 
         logger.warn("Author with these name and lastname already exist.", author);
@@ -44,22 +44,26 @@ public class AuthorService {
     public void removeAuthor(Long authorId) throws AuthorNotFoundException {
         if(authorValidation.validateAuthorExists(authorId)){
             authorDao.deleteById(authorId);
+            return;
         }
+
+        logger.warn("Author with this id no exist.", authorId);
+        throw new AuthorNotFoundException("Author with id: " + authorId + " no exist.");
     }
 
-    public boolean updateAuthor(Author author) throws AuthorNotFoundException {
-        String name = author.getAuthorName();
-        String lastName = author.getAuthorLastName();
+    public Author updateAuthor(Author author) throws AuthorNotFoundException {
+        Long authorId = author.getId();
 
-        if(authorValidation.validateAuthorExists(name, lastName)){
-            Author authorFromRepository = authorDao.getAuthorByAuthorNameAndAuthorLastName(name, lastName);
-            Long authorIdFromRepository = authorFromRepository.getId();
+        if(authorValidation.validateAuthorExists(authorId)){
+            Author fetchAuthor = authorDao.getAuthorById(author.getId()).get();
 
-            author.setId(authorIdFromRepository);
-            authorFromRepository = author;
+            fetchAuthor.setAuthorName(author.getAuthorName());
+            fetchAuthor.setAuthorLastName(author.getAuthorLastName());
+            fetchAuthor.setBornDate(author.getBornDate());
 
-            authorDao.flush();
-            return true;
+            authorDao.saveAndFlush(fetchAuthor);
+
+            return fetchAuthor;
         }
 
         logger.warn("Author with with given id already exist.", author);

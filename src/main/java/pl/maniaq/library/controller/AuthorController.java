@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.maniaq.library.errors.ModelError;
+import pl.maniaq.library.model.BodyMessage;
 import pl.maniaq.library.exceptions.AuthorExistException;
 import pl.maniaq.library.exceptions.AuthorNotFoundException;
 import pl.maniaq.library.model.Author;
+import pl.maniaq.library.model.assemblers.AuthorAssembler;
+import pl.maniaq.library.model.assemblers.BodyMessageAssembler;
 import pl.maniaq.library.model.enums.CrudOperations;
 import pl.maniaq.library.service.AuthorService;
-import pl.maniaq.library.wrappers.ObjectMapperWrapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,13 +21,17 @@ import java.util.List;
 @RequestMapping(value="/authors")
 public class AuthorController {
 
-    AuthorService authorService;
-    ObjectMapperWrapper objectMapper;
+    private AuthorService authorService;
+    private AuthorAssembler authorAssembler;
+    private BodyMessageAssembler bodyMessageAssembler;
 
     @Autowired
-    public AuthorController(AuthorService authorService, ObjectMapperWrapper objectMapper){
+    public AuthorController(AuthorService authorService,
+                            AuthorAssembler assembler,
+                            BodyMessageAssembler bodyMessageAssembler){
         this.authorService=authorService;
-        this.objectMapper = objectMapper;
+        this.authorAssembler=assembler;
+        this.bodyMessageAssembler = bodyMessageAssembler;
     }
 
     @RequestMapping(
@@ -46,18 +51,26 @@ public class AuthorController {
     )
     public ResponseEntity<String> createAuthor(@RequestBody Author author) throws IOException {
         ResponseEntity<String> response;
+        BodyMessage body = new BodyMessage.Builder()
+                .setOperation(CrudOperations.CREATE)
+                .setModel(Author.class)
+                .build();
 
         try {
-            author = authorService.addNewAuthor(author).get();
-            response = ResponseEntity.ok(objectMapper.writeValueAsString(author));
+            author = authorService.addNewAuthor(author);
+            response = ResponseEntity.ok(authorAssembler.getAuthorJSON(author));
 
         } catch (AuthorExistException e) {
             e.printStackTrace();
-            response = ResponseEntity.badRequest().body(objectMapper.writeValueAsString(new ModelError(Author.class, "Author with these parameters already exist.", CrudOperations.CREATE)));
+            body.setMessage("Author with these parameters already exist.");
+            body.setStatus(HttpStatus.BAD_REQUEST);
+            response = ResponseEntity.badRequest().body(bodyMessageAssembler.getBodyJSON(body));
 
         } catch (IOException ex) {
             ex.printStackTrace();
-            response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Content that you provide is incorrect.");
+            body.setMessage("Perhaps you applied wrong format data.");
+            body.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(bodyMessageAssembler.getBodyJSON(body));
         }
 
         return response;
@@ -67,15 +80,21 @@ public class AuthorController {
             value="/{id}",
             method={RequestMethod.DELETE}
     )
-    public ResponseEntity<String> deleteAuthor(@PathVariable(value="id") Long id) {
+    public ResponseEntity<String> deleteAuthor(@PathVariable(value="id") Long id) throws IOException {
         ResponseEntity<String> response;
+        BodyMessage body = new BodyMessage.Builder()
+                .setOperation(CrudOperations.DELETE)
+                .setModel(Author.class)
+                .build();
 
         try {
             authorService.removeAuthor(id);
-            response = ResponseEntity.ok().build();
+            response = ResponseEntity.status(HttpStatus.ACCEPTED).build();
         } catch (AuthorNotFoundException e) {
             e.printStackTrace();
-            response = ResponseEntity.notFound().build();
+            body.setMessage(e.getMessage());
+            body.setStatus(HttpStatus.NOT_FOUND);
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyMessageAssembler.getBodyJSON(body));
         }
 
         return response;
@@ -84,18 +103,29 @@ public class AuthorController {
     @RequestMapping(
             value="",
             method={RequestMethod.PUT},
-            consumes="application/json"
+            consumes="application/json",
             produces="application/json"
     )
-    public ResponseEntity<String> updateAuthor(@RequestBody Author author) {
+    public ResponseEntity<String> updateAuthor(@RequestBody Author author) throws IOException {
         ResponseEntity<String> response;
-        //zwrócić authora po update
+        BodyMessage body = new BodyMessage.Builder()
+                .setOperation(CrudOperations.PUT)
+                .setModel(Author.class)
+                .build();
+
         try {
-            authorService.updateAuthor(author);
-            response = ResponseEntity.ok().build();
+            Author updatedAuthor = authorService.updateAuthor(author);
+            response = ResponseEntity.ok(authorAssembler.getAuthorJSON(updatedAuthor));
         } catch (AuthorNotFoundException e) {
             e.printStackTrace();
-            response = ResponseEntity.notFound().build();
+            body.setMessage("Author does not exist.");
+            body.setStatus(HttpStatus.NOT_FOUND);
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyMessageAssembler.getBodyJSON(body));
+        } catch (IOException e) {
+            e.printStackTrace();
+            body.setMessage("Perhaps you applied wrong format data.");
+            body.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(bodyMessageAssembler.getBodyJSON(body));
         }
 
         return response;
