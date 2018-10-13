@@ -1,15 +1,14 @@
 package pl.maniaq.library.controller;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.maniaq.library.errors.ModelError;
 import pl.maniaq.library.exceptions.AuthorExistException;
 import pl.maniaq.library.exceptions.AuthorNotFoundException;
 import pl.maniaq.library.model.Author;
+import pl.maniaq.library.model.enums.CrudOperations;
 import pl.maniaq.library.service.AuthorService;
 import pl.maniaq.library.wrappers.ObjectMapperWrapper;
 
@@ -45,7 +44,7 @@ public class AuthorController {
             consumes="application/json",
             produces="application/json"
     )
-    public ResponseEntity<String> createAuthor(@RequestBody Author author) {
+    public ResponseEntity<String> createAuthor(@RequestBody Author author) throws IOException {
         ResponseEntity<String> response;
 
         try {
@@ -54,7 +53,7 @@ public class AuthorController {
 
         } catch (AuthorExistException e) {
             e.printStackTrace();
-            response = ResponseEntity.badRequest().body("Author already exists");
+            response = ResponseEntity.badRequest().body(objectMapper.writeValueAsString(new ModelError(Author.class, "Author with these parameters already exist.", CrudOperations.CREATE)));
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -86,7 +85,7 @@ public class AuthorController {
             value="",
             method={RequestMethod.PUT},
             consumes="application/json"
-            //produces="application/json"
+            produces="application/json"
     )
     public ResponseEntity<String> updateAuthor(@RequestBody Author author) {
         ResponseEntity<String> response;

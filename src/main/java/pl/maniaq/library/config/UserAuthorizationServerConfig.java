@@ -12,7 +12,7 @@ public class UserAuthorizationServerConfig extends AuthorizationServerConfigurer
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception{
-        clients.inMemory().withClient("maniaq").secret("secret").authorizedGrantTypes("authorization_code")
+        clients.inMemory().withClient("admin").secret("admin").authorizedGrantTypes("authorization_code")
                 .scopes("read").authorities("CLIENT");
 
 

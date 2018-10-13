@@ -2,7 +2,13 @@
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/java/pl/maniaq/library/LibraryApplication.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/pl/maniaq/library/config/UserAuthorizationServerConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/pl/maniaq/library/config/UserSecurityConfig.java</file>
+        </fileset>
+      </configuration>
     </facet>
     <facet type="web" name="Web">
       <configuration>

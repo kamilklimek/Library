@@ -1,5 +1,7 @@
 package pl.maniaq.library.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.maniaq.library.dao.AuthorDao;
@@ -17,6 +19,7 @@ public class AuthorService {
 
     AuthorValidation authorValidation;
     AuthorDao authorDao;
+    Logger logger = LoggerFactory.getLogger(AuthorService.class);
 
     @Autowired
     public AuthorService(AuthorValidation authorValidation,
@@ -29,10 +32,13 @@ public class AuthorService {
         boolean authorAlreadyNoExist = !authorValidation.validateAuthorExists(author.getAuthorName(), author.getAuthorLastName());
 
         if(authorAlreadyNoExist){
-            return Optional.of(authorDao.save(author));
+            Author createdAuthor = authorDao.save(author);
+            logger.info("Create new object author.", createdAuthor);
+            return Optional.of(createdAuthor);
         }
 
-        throw new AuthorExistException("Author with name: " + author.getAuthorName() + " and lastname: " + author.getAuthorLastName() + " does not exist.");
+        logger.warn("Author with these name and lastname already exist.", author);
+        throw new AuthorExistException("Author with name: " + author.getAuthorName() + " and lastname: " + author.getAuthorLastName() + " already exist.");
     }
 
     public void removeAuthor(Long authorId) throws AuthorNotFoundException {
@@ -56,8 +62,8 @@ public class AuthorService {
             return true;
         }
 
+        logger.warn("Author with with given id already exist.", author);
         throw new AuthorNotFoundException("Author with id: " + author.id + " does not exist.");
-
     }
 
     public List<Author> getAllAuthors(){
