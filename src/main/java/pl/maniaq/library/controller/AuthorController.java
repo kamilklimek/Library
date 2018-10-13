@@ -18,7 +18,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value="/authors")
+@RequestMapping(value="/author")
 public class AuthorController {
 
     private AuthorService authorService;

@@ -21,7 +21,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value="/books")
+@RequestMapping(value="/book")
 public class BookController {
 
 

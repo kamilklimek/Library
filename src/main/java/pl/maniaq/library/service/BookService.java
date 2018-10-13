@@ -39,7 +39,7 @@ public class BookService {
         Author author = authorDao.getAuthorById(book.getAuthor().getId()).get();
         Category category = categoryDao.getCategoryById(book.getCategory().getId());
 
-        boolean bookAlreadyExist = !bookValidation.validateBookExists(book.getTitle(), author);
+        boolean bookAlreadyExist = bookValidation.validateBookExists(book.getTitle(), author);
 
         if(!bookAlreadyExist){
 

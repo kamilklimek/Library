@@ -15,14 +15,8 @@ public class CategoryValidation {
 
     }
 
-    public boolean validateCategoryExists(String categoryName){
-        boolean categoryExists = categoryDao.existsCategoryByCategoryName(categoryName);
-
-        if(categoryExists){
-           return true;
-        }
-
-        return false;
+    public boolean validateCategoryExists(String categoryName) {
+        return categoryDao.existsCategoryByCategoryName(categoryName);
     }
 
 }
