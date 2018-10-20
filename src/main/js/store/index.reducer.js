@@ -15,6 +15,36 @@ export default function indexReducer(state = {}, action) {
                 ],
             };
         }
+        case 'SET_BOOKS': {
+            return {
+                ...state,
+                books: action.books,
+            };
+        }
+        case 'ADD_BOOK': {
+            return {
+                ...state,
+                books: [
+                    ...state.books,
+                    action.book,
+                ],
+            };
+        }
+        case 'SET_CATEGORIES': {
+            return {
+                ...state,
+                categories: action.categories,
+            };
+        }
+        case 'ADD_CATEGORY': {
+            return {
+                ...state,
+                categories: [
+                    ...state.categories,
+                    action.category,
+                ],
+            };
+        }
     }
 
     return state;

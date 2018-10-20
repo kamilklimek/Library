@@ -56,7 +56,6 @@ public class AuthorController {
                 .setModel(Author.class)
                 .build();
 
-        System.out.println("Author: " + author);
 
         try {
             author = authorService.addNewAuthor(author);

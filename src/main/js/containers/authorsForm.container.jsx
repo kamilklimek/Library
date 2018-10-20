@@ -7,17 +7,6 @@ import validateAuthor from "../validation/validateAuthor";
 
 class AuthorsFormContainer extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            author: {
-                authorName: '',
-                authorLastName: '',
-                bornDate: new Date(),
-            },
-        };
-    }
 
     onCreateNewAuthor(author) {
 
