@@ -62,3 +62,16 @@ export function removeCategoryFromStore(id) {
 export function getCategoriesFromStore() {
     return store.getState().categories;
 }
+
+export function getAuthorsFromStore() {
+    return store.getState().authors;
+}
+
+export function removeAuthorFromStore(id) {
+    store.dispatch({
+        type: 'REMOVE_AUTHOR',
+        id,
+    });
+}
+
+

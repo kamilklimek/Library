@@ -57,7 +57,12 @@ export default function indexReducer(state = {}, action) {
                 categories: state.categories.filter(category => category.id !== action.id),
             };
         }
-
+        case 'REMOVE_AUTHOR': {
+            return {
+                ...state,
+                authors: state.authors.filter(author => author.id !== action.id),
+            };
+        }
     }
 
     return state;

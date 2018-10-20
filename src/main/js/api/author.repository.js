@@ -19,3 +19,12 @@ export function createAuthor(author) {
         .then(response => response.json())
         .catch(console.warn);
 }
+
+export function deleteAuthor(id) {
+    return fetch(`${getBaseURL()}/author/${id}`, {
+        method: 'DELETE',
+        headers: new Headers({'content-type': 'application/json'}),
+    })
+        .then(response => response.json())
+        .catch(console.warn);
+}
