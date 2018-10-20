@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTable from 'react-table';
-import '../../css/reactTable.css';
+import '../../../css/reactTable.css';
 
 class AuthorsTable extends React.Component {
 

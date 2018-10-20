@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {addBook} from "../store/index.manager";
-import BooksForm from "../components/booksForm.component";
-import {createBook} from "../api/books.repository";
+import {addBook} from "../../store/index.manager";
+import BooksForm from "../../components/forms/booksForm.component";
+import {createBook} from "../../api/books.repository";
 
 class BooksFormContainer extends React.Component {
     onCreateBook(book) {

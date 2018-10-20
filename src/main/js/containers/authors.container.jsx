@@ -1,7 +1,7 @@
 import React from 'react';
-import AuthorsTableComponent from "../components/authorsTable.component";
+import AuthorsTableComponent from "../components/tables/authorsTable.component";
 import {connect} from 'react-redux';
-import AuthorsFormContainer from "./authorsForm.container.jsx";
+import AuthorsFormContainer from "./forms/authorsForm.container.jsx";
 
 class AuthorsContainer extends React.Component {
 

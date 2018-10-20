@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import connect from "react-redux/es/connect/connect";
-import BooksFormContainer from "./booksForm.container";
-import BooksTable from "../components/booksTable.component";
+import BooksFormContainer from "./forms/booksForm.container";
+import BooksTable from "../components/tables/booksTable.component";
 
 class BooksContainer extends Component {
     render() {

@@ -1,9 +1,9 @@
 import React from 'react';
-import AuthorsForm from '../components/authorsForm.component';
-import {createAuthor} from "../api/author.repository";
-import {addAuthor} from "../store/index.manager";
-import {prepareFetchAuthor} from "../utils/author.utils";
-import validateAuthor from "../validation/validateAuthor";
+import AuthorsForm from '../../components/forms/authorsForm.component';
+import {createAuthor} from "../../api/author.repository";
+import {addAuthor} from "../../store/index.manager";
+import {prepareFetchAuthor} from "../../utils/author.utils";
+import validateAuthor from "../../validation/validateAuthor";
 
 class AuthorsFormContainer extends React.Component {
 
