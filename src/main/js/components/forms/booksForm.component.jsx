@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, ButtonGroup, ControlLabel, FormControl, FormGroup, HelpBlock} from "react-bootstrap";
+import EditBookDialogContainer from "../../containers/dialogs/edit/editBookdialog.container";
 
 class BooksForm extends React.Component {
     static mapAuthorsToSelect(authors) {
@@ -24,19 +25,14 @@ class BooksForm extends React.Component {
         super(props);
 
         this.state = {
-            book: {
-                title: '',
-                description: '',
-                releaseYear: '',
-                category: {
-                    id: -1,
-                },
-                author: {
-                    id: -1,
-                },
-            }
-            ,
+            book: this.props.book,
         };
+    }
+
+    componentDidMount() {
+        this.inputTitle.value = this.props.book.title;
+        this.inputDescription.value = this.props.book.description;
+        this.inputReleaseYear.value = this.props.book.releaseYear;
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -151,8 +147,8 @@ class BooksForm extends React.Component {
         this.inputReleaseYear.value = '';
     }
 
-    handleAddButton() {
-        this.props.handleCreateBook(this.state.book)
+    handleActionButton() {
+        this.props.handleActionBook(this.state.book)
             .then(() => this.clearForm())
             .catch(() => console.warn('Something goes wrong'));
     }
@@ -160,7 +156,7 @@ class BooksForm extends React.Component {
     render () {
         return (
             <form onClick={e => e.preventDefault()}>
-                <h2 className="title">Add book</h2>
+                <h2 className="title">{this.props.title}</h2>
                 <FormGroup
                     controlId="title"
                 >
@@ -226,16 +222,35 @@ class BooksForm extends React.Component {
                     <FormControl.Feedback />
                 </FormGroup>
                 <ButtonGroup>
+                    { this.props.isEditMode && <Button bsStyle="warning" type="submit" onClick={EditBookDialogContainer.closeDialog}>Close</Button>}
                     <Button type="reset" onClick={() => this.clearForm()}>Clear</Button>
-                    <Button type="submit" onClick={() => this.handleAddButton()}>Add</Button>
+                    <Button bsStyle="primary" type="submit" onClick={() => this.handleActionButton()}>{this.props.isEditMode ? 'Edit' : 'Add'}</Button>
                 </ButtonGroup>
             </form>
         )
     }
 }
 BooksForm.propTypes = {
-    handleCreateBook: PropTypes.func.isRequired,
+    handleActionBook: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(Object).isRequired,
     authors: PropTypes.arrayOf(Object).isRequired,
+    title: PropTypes.string.isRequired,
 };
+
+BooksForm.defaultProps = {
+    book: {
+        title: '',
+        description: '',
+        releaseYear: '',
+        category: {
+            id: -1,
+        },
+        author: {
+            id: -1,
+        },
+    },
+    isEditMode: false,
+
+};
+
 export default BooksForm;

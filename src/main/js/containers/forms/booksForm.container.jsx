@@ -13,7 +13,7 @@ class BooksFormContainer extends React.Component {
 
     render() {
         return (
-            <BooksForm handleCreateBook={(book) => this.onCreateBook(book)} authors={this.props.authors} categories={this.props.categories} />
+            <BooksForm handleActionBook={(book) => this.onCreateBook(book)} authors={this.props.authors} categories={this.props.categories} title="Add book"  />
         );
     }
 
