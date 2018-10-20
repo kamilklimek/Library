@@ -23,9 +23,8 @@ public class Author {
     @Column(name="BORN_DATE")
     private Date bornDate;
 
-    @OneToMany(cascade = {CascadeType.MERGE},
+    @OneToMany(cascade = {CascadeType.ALL},
             targetEntity = Book.class)
-    @JoinColumn(name="id")
     private Set<Book> books = new HashSet<>();
 
 

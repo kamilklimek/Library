@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.maniaq.library.dao.AuthorDao;
 import pl.maniaq.library.dao.BookDao;
 import pl.maniaq.library.dao.CategoryDao;
@@ -57,9 +58,10 @@ public class BookService {
         throw new BookExistException("Book already exists.");
     }
 
+    @Transactional
     public void removeBook(Long bookId) throws BookNotFoundException {
         if (bookValidation.validateBookExists(bookId)) {
-            bookDao.deleteById(bookId);
+            bookDao.deleteBookById(bookId);
             return;
         }
 

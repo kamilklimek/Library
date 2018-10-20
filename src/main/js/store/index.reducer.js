@@ -45,6 +45,12 @@ export default function indexReducer(state = {}, action) {
                 ],
             };
         }
+        case 'REMOVE_BOOK': {
+            return {
+                ...state,
+                books: state.books.filter(book => book.id !== action.id),
+            };
+        }
     }
 
     return state;

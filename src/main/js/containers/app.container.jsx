@@ -29,6 +29,7 @@ class AppContainer extends Component {
                     <Route path='/authors' component={AuthorsContainer}/>
                     <Route path='/categories' component={CategoriesContainer}/>
                 </Switch>
+                <div id="modalContainer" />
             </div>
         );
     }

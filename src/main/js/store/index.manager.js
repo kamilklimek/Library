@@ -40,5 +40,13 @@ export function setCategories(categories) {
     });
 }
 
+export function getBooksFromStore() {
+    return store.getState().books;
+}
 
-
+export function removeBookFromStore(id) {
+    store.dispatch({
+        type: 'REMOVE_BOOK',
+        id,
+    });
+}

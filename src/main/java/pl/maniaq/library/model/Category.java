@@ -20,9 +20,8 @@ public class Category {
     @Column(name="description")
     private String description;
 
-    @OneToMany(cascade = {CascadeType.MERGE},
+    @OneToMany(cascade = {CascadeType.ALL},
             targetEntity = Book.class)
-    @JoinColumn(name="id")
     private Set<Book> books = new HashSet<>();
 
     public Category(){

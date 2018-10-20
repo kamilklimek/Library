@@ -31,3 +31,30 @@ code {
   padding-bottom: 1em;
   box-sizing: border-box;
 }
+
+.title-remove {
+  padding-bottom: .5em;
+}
+
+.delete-button {
+  color:red;
+  background: none;
+  padding:0;
+  box-sizing: border-box;
+  border: 0;
+  text-align:center;
+  margin:0 auto;
+  width:100%;
+}
+
+.modal {
+  position: relative;
+}
+.remove-buttons {
+  display:flex;
+  justify-content: flex-end;
+}
+
+.remove-buttons > * {
+
+}

@@ -18,5 +18,5 @@ public interface BookDao extends JpaRepository<Book, Long> {
     boolean existsBookByTitleAndAuthor(String title, Author author);
     boolean existsBookById(Long id);
 
-
+    void deleteBookById(Long id);
 }
