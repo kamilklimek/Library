@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, ButtonGroup, ControlLabel, FormControl, FormGroup, HelpBlock} from "react-bootstrap";
+import EditAuthorDialogContainer from "../../containers/dialogs/edit/editAuthor.dialog.container";
 
 class CategoriesForm extends React.Component {
 
@@ -9,11 +10,13 @@ class CategoriesForm extends React.Component {
         super(props);
 
         this.state = {
-            category: {
-                categoryName: '',
-                description: '',
-            },
+            category: this.props.category,
         };
+    }
+
+    componentDidMount() {
+        this.inputCategoryName.value = this.props.category.categoryName;
+        this.inputDescription.value = this.props.category.description;
     }
 
     onChangeCategoryName(e) {
@@ -60,8 +63,8 @@ class CategoriesForm extends React.Component {
         this.inputDescription.value = '';
     }
 
-    handleAddButton() {
-        this.props.handleCreateCategory(this.state.category)
+    handleActionButton() {
+        this.props.handleActionCategory(this.state.category)
             .then(() => this.clearForm())
             .catch(() => console.warn('Something goes wrong'));
     }
@@ -70,7 +73,7 @@ class CategoriesForm extends React.Component {
     render () {
         return (
             <form onClick={e => e.preventDefault()}>
-                <h2 className="title">Add category</h2>
+                <h2 className="title">{this.props.title}</h2>
                 <FormGroup
                     controlId="categoryName"
                     validationState={this.validateCategoryName()}
@@ -99,14 +102,27 @@ class CategoriesForm extends React.Component {
                 </FormGroup>
 
                 <ButtonGroup>
+                    { this.props.isEditMode && <Button bsStyle="warning" type="submit" onClick={EditAuthorDialogContainer.closeDialog}>Close</Button>}
                     <Button type="reset" onClick={() => this.clearForm()}>Clear</Button>
-                    <Button type="submit" onClick={() => this.handleAddButton()}>Add</Button>
+                    <Button bsStyle="primary" type="submit" onClick={() => this.handleActionButton()}>{this.props.isEditMode ? 'Edit' : 'Add'}</Button>
                 </ButtonGroup>
             </form>
         )
     }
 }
 CategoriesForm.propTypes = {
-    handleCreateCategory: PropTypes.func.isRequired,
+    handleActionCategory: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    category: PropTypes.object,
+    isEditMode: PropTypes.bool,
 };
+
+CategoriesForm.defaultProps = {
+    category: {
+        categoryName: '',
+        description: '',
+    },
+    isEditMode: false,
+};
+
 export default CategoriesForm;

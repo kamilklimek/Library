@@ -3,6 +3,7 @@ import connect from "react-redux/es/connect/connect";
 import CategoriesTable from "../components/tables/categoriesTable.component";
 import CategoriesFormContainer from "./forms/categoriesForm.container";
 import RemoveCategoryDialogContainer from "./dialogs/remove/removeCategory.dialog.container";
+import EditCategoryDialogContainer from "./dialogs/edit/editCategory.dialog.container";
 
 
 class CategoriesContainer extends Component {
@@ -10,10 +11,14 @@ class CategoriesContainer extends Component {
         RemoveCategoryDialogContainer.openDialog(id);
     }
 
+    editCategory(id) {
+        EditCategoryDialogContainer.openDialog(id);
+    }
+
     render() {
         return (
             <div className="authors__container">
-                <CategoriesTable categories={this.props.categories} onRemoveCategory={this.removeCategory} />
+                <CategoriesTable categories={this.props.categories} onRemoveCategory={this.removeCategory} onEditCategory={this.editCategory}/>
                 <CategoriesFormContainer />
             </div>
         );

@@ -15,7 +15,7 @@ class CategoriesFormContainer extends React.Component {
 
     render() {
         return (
-            <CategoriesForm handleCreateCategory={(category) => this.onCreateCategory(category)} />
+            <CategoriesForm handleActionCategory={(category) => this.onCreateCategory(category)} title="Add category"/>
         );
     }
 

@@ -26,3 +26,13 @@ export function deleteCategory(id) {
         .then(response => response.json())
         .catch(console.warn);
 }
+
+export function updateCategory(category) {
+    return fetch(`${getBaseURL()}/category/`, {
+        method: 'PUT',
+        headers: new Headers({'content-type': 'application/json'}),
+        body: JSON.stringify(category),
+    })
+        .then(response => response.json())
+        .catch(console.warn);
+}

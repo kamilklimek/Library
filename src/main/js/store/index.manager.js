@@ -58,7 +58,6 @@ export function removeCategoryFromStore(id) {
     });
 }
 
-
 export function getCategoriesFromStore() {
     return store.getState().categories;
 }
@@ -74,11 +73,25 @@ export function removeAuthorFromStore(id) {
     });
 }
 
-
 export function editAuthor(author) {
     store.dispatch({
         type: 'EDIT_AUTHOR',
         author,
     });
 }
+
+export function editCategory(category) {
+    store.dispatch({
+        type: 'EDIT_CATEGORY',
+        category,
+    });
+}
+
+export function editBook(book) {
+    store.dispatch({
+        type: 'EDIT_BOOK',
+        book,
+    });
+}
+
 

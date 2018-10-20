@@ -72,6 +72,25 @@ export default function indexReducer(state = {}, action) {
                 ],
             };
         }
+        case 'EDIT_BOOK': {
+            return {
+                ...state,
+                books: [
+                    ...state.books.filter(book => book.id !== action.book.id),
+                    action.book,
+                ],
+            };
+        }
+
+        case 'EDIT_CATEGORY': {
+            return {
+                ...state,
+                categories: [
+                    ...state.categories.filter(category => category.id !== action.category.id),
+                    action.category,
+                ],
+            };
+        }
     }
 
     return state;
