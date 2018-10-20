@@ -55,6 +55,14 @@ code {
   justify-content: flex-end;
 }
 
-.remove-buttons > * {
 
+.edit-button {
+  color:black;
+  background: none;
+  padding:0;
+  box-sizing: border-box;
+  border: 0;
+  text-align:center;
+  margin:0 auto;
+  width:100%;
 }

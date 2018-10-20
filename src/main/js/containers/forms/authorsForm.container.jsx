@@ -20,7 +20,7 @@ class AuthorsFormContainer extends React.Component {
 
     render() {
         return (
-            <AuthorsForm handleCreateAuthor={(author) => this.onCreateNewAuthor(author)} />
+            <AuthorsForm handleActionAuthor={(author) => this.onCreateNewAuthor(author)} title="Add author" />
         );
     }
 

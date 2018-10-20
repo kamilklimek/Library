@@ -3,6 +3,23 @@ import PropTypes from 'prop-types';
 import {Button, ButtonGroup, ControlLabel, FormControl, FormGroup, HelpBlock} from "react-bootstrap";
 
 class BooksForm extends React.Component {
+    static mapAuthorsToSelect(authors) {
+        return authors.map(author => {
+            const label = `${author.authorName} ${author.authorLastName}`;
+            return (
+                <option key={author.id} value={author.id}>{label}</option>
+            );
+        });
+    }
+
+    static mapCategoriesToSelect(categories) {
+        return categories.map(category => {
+            return (
+                <option key={category.id} value={category.id}>{category.categoryName}</option>
+            );
+        });
+    }
+
     constructor(props) {
         super(props);
 
@@ -140,23 +157,6 @@ class BooksForm extends React.Component {
             .catch(() => console.warn('Something goes wrong'));
     }
 
-    mapAuthorsToSelect(authors) {
-        return authors.map(author => {
-            const label = `${author.authorName} ${author.authorLastName}`;
-            return (
-                <option key={author.id} value={author.id}>{label}</option>
-            );
-        });
-    }
-
-    mapCategoriesToSelect(categories) {
-        return categories.map(category => {
-            return (
-                <option key={category.id} value={category.id}>{category.categoryName}</option>
-            );
-        });
-    }
-
     render () {
         return (
             <form onClick={e => e.preventDefault()}>
@@ -208,7 +208,7 @@ class BooksForm extends React.Component {
                         placeholder="Choose an author"
                         onChange={input => this.onChangeAuthor(input)}
                     >
-                        {this.mapAuthorsToSelect(this.props.authors)}
+                        {BooksForm.mapAuthorsToSelect(this.props.authors)}
                     </FormControl>
                     <FormControl.Feedback />
                 </FormGroup>
@@ -221,7 +221,7 @@ class BooksForm extends React.Component {
                         placeholder="Choose a category"
                         onChange={input => this.onChangeCategory(input)}
                     >
-                        {this.mapCategoriesToSelect(this.props.categories)}
+                        {BooksForm.mapCategoriesToSelect(this.props.categories)}
                     </FormControl>
                     <FormControl.Feedback />
                 </FormGroup>

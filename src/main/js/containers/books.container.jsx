@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import connect from "react-redux/es/connect/connect";
 import BooksFormContainer from "./forms/booksForm.container";
 import BooksTable from "../components/tables/booksTable.component";
-import RemoveBookDialogContainer from "./dialogs/removeBook.dialog.container";
+import RemoveBookDialogContainer from "./dialogs/remove/removeBook.dialog.container";
 
 class BooksContainer extends Component {
 

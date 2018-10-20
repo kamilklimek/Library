@@ -3,7 +3,7 @@ import {addCategory} from "../../store/index.manager";
 import {createCategory} from "../../api/category.repository";
 import CategoriesForm from "../../components/forms/categoriesForm.component";
 
-class AuthorsFormContainer extends React.Component {
+class CategoriesFormContainer extends React.Component {
 
 
     onCreateCategory(category) {
@@ -20,4 +20,4 @@ class AuthorsFormContainer extends React.Component {
     }
 
 }
-export default AuthorsFormContainer;
+export default CategoriesFormContainer;

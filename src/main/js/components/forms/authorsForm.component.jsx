@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, ButtonGroup, ControlLabel, FormControl, FormGroup, HelpBlock} from "react-bootstrap";
 import Calendar from "react-calendar";
+import EditAuthorDialogContainer from "../../containers/dialogs/edit/editAuthor.dialog.container";
 
 class AuthorsForm extends React.Component {
 
@@ -10,12 +11,13 @@ class AuthorsForm extends React.Component {
         super(props);
 
         this.state = {
-            author: {
-                authorName: '',
-                authorLastName: '',
-                bornDate: new Date(),
-            },
+            author: this.props.author,
         };
+    }
+
+    componentDidMount() {
+        this.inputName.value = this.props.author.authorName;
+        this.inputLastName.value = this.props.author.authorLastName;
     }
 
     onChangeDate(bornDate) {
@@ -80,8 +82,8 @@ class AuthorsForm extends React.Component {
         this.inputName.value = '';
     }
 
-    handleAddButton() {
-        this.props.handleCreateAuthor(this.state.author)
+    handleActionButton() {
+        this.props.handleActionAuthor(this.state.author)
             .then(() => this.clearForm())
             .catch(() => console.warn('Something goes wrong'));
     }
@@ -90,7 +92,7 @@ class AuthorsForm extends React.Component {
     render () {
         return (
             <form onClick={e => e.preventDefault()}>
-                <h2 className="title">Add author</h2>
+                <h2 className="title">{this.props.title}</h2>
                 <FormGroup
                     controlId="authorName"
                     validationState={this.validateAuthorName()}
@@ -132,14 +134,27 @@ class AuthorsForm extends React.Component {
                 </FormGroup>
 
                 <ButtonGroup>
+                    { this.props.isEditMode && <Button bsStyle="warning" type="submit" onClick={EditAuthorDialogContainer.closeDialog}>Close</Button>}
                     <Button type="reset" onClick={() => this.clearForm()}>Clear</Button>
-                    <Button type="submit" onClick={() => this.handleAddButton()}>Add</Button>
+                    <Button bsStyle="primary" type="submit" onClick={() => this.handleActionButton()}>{this.props.isEditMode ? 'Edit' : 'Add'}</Button>
                 </ButtonGroup>
             </form>
         )
     }
 }
+AuthorsForm.defaultProps = {
+    author: {
+        authorLastName: '',
+        authorName: '',
+        bornDate: new Date(),
+    },
+    isEditMode: false,
+};
+
 AuthorsForm.propTypes = {
-    handleCreateAuthor: PropTypes.func.isRequired,
+    handleActionAuthor: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    author: PropTypes.object,
+    isEditMode: PropTypes.bool,
 };
 export default AuthorsForm;

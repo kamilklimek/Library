@@ -75,3 +75,10 @@ export function removeAuthorFromStore(id) {
 }
 
 
+export function editAuthor(author) {
+    store.dispatch({
+        type: 'EDIT_AUTHOR',
+        author,
+    });
+}
+

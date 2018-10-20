@@ -28,3 +28,13 @@ export function deleteAuthor(id) {
         .then(response => response.json())
         .catch(console.warn);
 }
+
+export function updateAuthor(author) {
+    return fetch(`${getBaseURL()}/author/`, {
+        method: 'PUT',
+        headers: new Headers({'content-type': 'application/json'}),
+        body: JSON.stringify(prepareAuthorToSave(author)),
+    })
+        .then(response => response.json())
+        .catch(console.warn);
+}

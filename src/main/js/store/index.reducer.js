@@ -63,6 +63,15 @@ export default function indexReducer(state = {}, action) {
                 authors: state.authors.filter(author => author.id !== action.id),
             };
         }
+        case 'EDIT_AUTHOR': {
+            return {
+                ...state,
+                authors: [
+                    ...state.authors.filter(author => author.id !== action.author.id),
+                    action.author,
+                ],
+            };
+        }
     }
 
     return state;
