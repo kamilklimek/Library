@@ -12,3 +12,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.authors__container {
+  display:flex;
+  width:80%;
+  margin:0 auto;
+  padding:5em 0;
+  box-sizing: border-box;
+}
+
+.authors__container > * {
+  flex:1;
+  margin: 0 1em;
+}
+
+.title {
+  margin:0;
+  padding-bottom: 1em;
+  box-sizing: border-box;
+}
