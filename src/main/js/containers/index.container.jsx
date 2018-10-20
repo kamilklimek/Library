@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
+import RegisterFromContainer from "./forms/registerForm.container";
 
 class IndexContainer extends Component {
     render() {
         return (
-            <h1>Hi</h1>
+            <div className="mainContainer">
+                <h2>Sign in</h2>
+                <RegisterFromContainer/>
+            </div>
         );
     }
 }

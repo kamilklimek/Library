@@ -66,3 +66,14 @@ code {
   margin:0 auto;
   width:100%;
 }
+
+.mainContainer {
+  width: 80%;
+  margin: 0 auto;
+  display:flex;
+}
+
+.mainContainer > * {
+  flex:1;
+  margin:0 1em;
+}
