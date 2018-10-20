@@ -19,6 +19,7 @@ export function createBook(book) {
         .then(response => response.json())
         .catch(console.warn);
 }
+
 export function deleteBook(id) {
     return fetch(`${getBaseURL()}/book/${id}`, {
         method: 'DELETE',

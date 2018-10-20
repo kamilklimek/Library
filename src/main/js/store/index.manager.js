@@ -50,3 +50,15 @@ export function removeBookFromStore(id) {
         id,
     });
 }
+
+export function removeCategoryFromStore(id) {
+    store.dispatch({
+        type: 'REMOVE_CATEGORY',
+        id,
+    });
+}
+
+
+export function getCategoriesFromStore() {
+    return store.getState().categories;
+}

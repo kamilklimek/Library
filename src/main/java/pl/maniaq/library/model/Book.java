@@ -1,5 +1,8 @@
 package pl.maniaq.library.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -21,10 +24,10 @@ public class Book {
     @Column(name="releaseYear")
     private Integer releaseYear;
 
-    @OneToOne(cascade = {CascadeType.ALL}, targetEntity = Author.class)
+    @OneToOne(cascade = CascadeType.MERGE, targetEntity = Author.class, fetch=FetchType.EAGER)
     private Author author;
 
-    @OneToOne(cascade = {CascadeType.ALL}, targetEntity = Category.class)
+    @OneToOne(cascade = CascadeType.MERGE, targetEntity = Category.class, fetch=FetchType.EAGER)
     private Category category;
 
 

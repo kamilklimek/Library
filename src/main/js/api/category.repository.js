@@ -17,3 +17,12 @@ export function createCategory(category) {
         .then(response => response.json())
         .catch(console.warn);
 }
+
+export function deleteCategory(id) {
+    return fetch(`${getBaseURL()}/category/${id}`, {
+        method: 'DELETE',
+        headers: new Headers({'content-type': 'application/json'}),
+    })
+        .then(response => response.json())
+        .catch(console.warn);
+}

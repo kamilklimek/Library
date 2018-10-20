@@ -23,8 +23,7 @@ public class Author {
     @Column(name="BORN_DATE")
     private Date bornDate;
 
-    @OneToMany(cascade = {CascadeType.ALL},
-            targetEntity = Book.class)
+    @OneToMany(cascade = CascadeType.ALL,  mappedBy = "author")
     private Set<Book> books = new HashSet<>();
 
 

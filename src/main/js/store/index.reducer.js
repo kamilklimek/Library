@@ -51,6 +51,13 @@ export default function indexReducer(state = {}, action) {
                 books: state.books.filter(book => book.id !== action.id),
             };
         }
+        case 'REMOVE_CATEGORY': {
+            return {
+                ...state,
+                categories: state.categories.filter(category => category.id !== action.id),
+            };
+        }
+
     }
 
     return state;

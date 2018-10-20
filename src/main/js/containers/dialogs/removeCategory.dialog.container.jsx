@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import {Button, ButtonGroup} from "react-bootstrap";
-import getBookById from "../../services/books.service";
-import {deleteBook} from "../../api/books.repository";
-import {removeBookFromStore} from "../../store/index.manager";
+import getCategoryById from "../../services/categories.service";
+import {removeCategoryFromStore} from "../../store/index.manager";
+import {deleteCategory} from "../../api/category.repository";
 
-class RemoveBookDialogContainer extends React.Component {
+class RemoveCategoryDialogContainer extends React.Component {
 
     static openDialog(id) {
         ReactDOM.render(
-            <RemoveBookDialogContainer book={getBookById(id)}/>
+            <RemoveCategoryDialogContainer category={getCategoryById(id)}/>
             , document.getElementById('modalContainer')
         );
     }
@@ -40,11 +40,11 @@ class RemoveBookDialogContainer extends React.Component {
         }
     }
 
-    handleRemoveBook() {
-        const { id } = this.props.book;
-        deleteBook(id)
-            .then(() => removeBookFromStore(id))
-            .then(RemoveBookDialogContainer.closeDialog)
+    handleRemoveCategory() {
+        const { id } = this.props.category;
+        deleteCategory(id)
+            .then(() => removeCategoryFromStore(id))
+            .then(RemoveCategoryDialogContainer.closeDialog)
             .catch(console.warn);
     }
 
@@ -54,14 +54,14 @@ class RemoveBookDialogContainer extends React.Component {
             <Modal
                 isOpen={this.state.modalIsOpen}
                 style={this.customStyles}
-                contentLabel="Remove book"
+                contentLabel="Remove category"
             >
 
-                <h2 className="title title-remove">Remove book</h2>
-                <p>{`Are you sure you want to remove book ${this.props.book.title}?`}</p>
+                <h2 className="title title-remove">Remove category</h2>
+                <p>{`Are you sure you want to category ${this.props.category.categoryName} and all books assigned to this category?`}</p>
                 <ButtonGroup className="remove-buttons">
-                    <Button type="submit" bsStyle="danger" onClick={() => this.handleRemoveBook()}>Remove</Button>
-                    <Button type="submit" onClick={RemoveBookDialogContainer.closeDialog}>Close</Button>
+                    <Button type="submit" bsStyle="danger" onClick={() => this.handleRemoveCategory()}>Remove</Button>
+                    <Button type="submit" onClick={RemoveCategoryDialogContainer.closeDialog}>Close</Button>
                 </ButtonGroup>
 
             </Modal>
@@ -70,8 +70,8 @@ class RemoveBookDialogContainer extends React.Component {
 
 }
 
-RemoveBookDialogContainer.propTypes = {
-    book: PropTypes.object.isRequired,
+RemoveCategoryDialogContainer.propTypes = {
+    category: PropTypes.object.isRequired,
 };
 
-export default RemoveBookDialogContainer;
+export default RemoveCategoryDialogContainer;

@@ -1,6 +1,9 @@
 package pl.maniaq.library.model;
 
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,8 +23,7 @@ public class Category {
     @Column(name="description")
     private String description;
 
-    @OneToMany(cascade = {CascadeType.ALL},
-            targetEntity = Book.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private Set<Book> books = new HashSet<>();
 
     public Category(){
