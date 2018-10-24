@@ -56,7 +56,20 @@ code {
 }
 
 
+
+
 .edit-button {
+  color:black;
+  background: none;
+  padding:0;
+  box-sizing: border-box;
+  border: 0;
+  text-align:center;
+  margin:0 auto;
+  width:100%;
+}
+
+.borrow-button {
   color:black;
   background: none;
   padding:0;
@@ -76,4 +89,10 @@ code {
 .mainContainer > * {
   flex:1;
   margin:0 1em;
+}
+
+.rt-td {
+  display:flex;
+  align-self: center;
+  justify-content: center;
 }

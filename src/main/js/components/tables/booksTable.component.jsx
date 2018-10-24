@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTable from 'react-table';
 import '../../../css/reactTable.css';
-import {TiDeleteOutline, TiEdit} from "react-icons/ti";
+import {TiDeleteOutline, TiEdit, TiFolderAdd} from "react-icons/ti";
 
 class BooksTable extends React.Component {
 
@@ -46,6 +46,12 @@ class BooksTable extends React.Component {
                 Header: 'Remove',
                 accessor: 'category.id',
                 Cell: props => <button className="delete-button" onClick={() => this.props.onRemoveBook(props.value)}><TiDeleteOutline size={32} /></button>
+            },
+            {
+                headerClassName: 'my-favorites-column-header-group',
+                Header: 'Borrow book',
+                accessor: 'id',
+                Cell: props => <button className="borrow-button" onClick={() => this.props.onBorrowBook(props.value)}><TiFolderAdd size={32} /></button>
             }
         ];
     }
@@ -67,5 +73,6 @@ BooksTable.propTypes = {
     })).isRequired,
     onRemoveBook: PropTypes.func.isRequired,
     onEditBook: PropTypes.func.isRequired,
+    onBorrowBook: PropTypes.func.isRequired,
 }
 export default BooksTable;

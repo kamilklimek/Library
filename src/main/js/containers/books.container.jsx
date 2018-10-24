@@ -15,10 +15,14 @@ class BooksContainer extends Component {
         EditBookDialogContainer.openDialog(id);
     }
 
+    onBorrowBook(id) {
+        console.log('Borrow book', id);
+    }
+
     render() {
         return (
             <div className="authors__container">
-                <BooksTable books={this.props.books} onRemoveBook={this.onRemoveBook} onEditBook={this.editBook} />
+                <BooksTable books={this.props.books} onRemoveBook={this.onRemoveBook} onEditBook={this.editBook} onBorrowBook={this.onBorrowBook}/>
                 <BooksFormContainer />
             </div>
         );
