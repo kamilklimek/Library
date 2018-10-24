@@ -6,7 +6,7 @@ import pl.maniaq.library.model.User;
 import pl.maniaq.library.service.UserService;
 
 import java.util.Collection;
-import java.util.List;
+
 
 @RestController
 public class UserController {

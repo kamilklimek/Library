@@ -13,11 +13,11 @@ import {getCategories} from "../api/category.repository";
 
 class AppContainer extends Component {
 
-    componentDidMount() {
+   /* componentDidMount() {
         getAuthors().then(data => setAuthors(prepareFetchAuthors(data)));
         getBooks().then(data => setBooks(data));
         getCategories().then(data => setCategories(data));
-    }
+    } */
 
     render() {
         return (
